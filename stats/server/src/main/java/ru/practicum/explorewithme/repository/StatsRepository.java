@@ -2,11 +2,13 @@ package ru.practicum.explorewithme.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import ru.practicum.explorewithme.EventView;
 import ru.practicum.explorewithme.model.EndpointHit;
 import ru.practicum.explorewithme.model.ViewStats;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
 
@@ -27,4 +29,6 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
             "GROUP BY eh.app, eh.uri " +
             "ORDER BY hits DESC")
     List<ViewStats> findStatistics(LocalDateTime start, LocalDateTime end, List<String> uris);
+
+    Optional<EventView> findByUriAndIp(String uri, String api);
 }

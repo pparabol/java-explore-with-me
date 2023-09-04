@@ -24,4 +24,12 @@ public class StatsClient extends BaseClient {
         );
         return get("/stats?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
     }
+
+    public ResponseEntity<Object> getEventView(String uri, String ip) {
+        Map<String, Object> parameters = Map.of(
+                "uri", uri,
+                "ip", ip
+        );
+        return get("/view?uri={uri}&ip={ip}", parameters);
+    }
 }

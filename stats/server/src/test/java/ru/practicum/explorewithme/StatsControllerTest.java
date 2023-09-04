@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.practicum.explorewithme.config.StatsServiceConfig;
+import ru.practicum.explorewithme.config.JsonDateTimeConfig;
 import ru.practicum.explorewithme.service.StatsService;
 
 import java.nio.charset.StandardCharsets;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest(StatsController.class)
-@Import(StatsServiceConfig.class)
+@Import(JsonDateTimeConfig.class)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class StatsControllerTest {
     private final ObjectMapper mapper;
@@ -49,16 +49,13 @@ public class StatsControllerTest {
 
     @Test
     void saveHit() throws Exception {
-        when(statsService.saveHit(any())).thenReturn(hitDto);
-
         mvc.perform(post("/hit")
                         .content(mapper.writeValueAsString(hitDto))
                         .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.uri", is(hitDto.getUri())))
-                .andExpect(jsonPath("$.ip", is(hitDto.getIp())));
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        verify(statsService, times(1)).saveHit(any());
     }
 
     @Test
