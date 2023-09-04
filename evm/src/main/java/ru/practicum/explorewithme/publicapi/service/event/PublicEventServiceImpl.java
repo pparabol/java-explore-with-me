@@ -12,7 +12,7 @@ import ru.practicum.explorewithme.StatsClient;
 import ru.practicum.explorewithme.common.dto.event.EventFullDto;
 import ru.practicum.explorewithme.common.dto.event.EventShortDto;
 import ru.practicum.explorewithme.common.dto.event.EventState;
-import ru.practicum.explorewithme.common.exception.NotFoundException;
+import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.common.mapper.EventMapper;
 import ru.practicum.explorewithme.common.model.Event;
 import ru.practicum.explorewithme.common.repository.EventRepository;

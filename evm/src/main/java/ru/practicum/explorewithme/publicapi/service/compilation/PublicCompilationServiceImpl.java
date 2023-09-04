@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.common.dto.compilation.CompilationDto;
-import ru.practicum.explorewithme.common.exception.NotFoundException;
+import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.common.mapper.CompilationMapper;
 import ru.practicum.explorewithme.common.repository.CompilationRepository;
 

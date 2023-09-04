@@ -8,8 +8,8 @@ import ru.practicum.explorewithme.common.dto.request.EventRequestStatusUpdateRes
 import ru.practicum.explorewithme.common.dto.event.EventState;
 import ru.practicum.explorewithme.common.dto.request.ParticipationRequestDto;
 import ru.practicum.explorewithme.common.dto.request.RequestStatus;
-import ru.practicum.explorewithme.common.exception.NotFoundException;
-import ru.practicum.explorewithme.common.exception.ValidationException;
+import ru.practicum.explorewithme.exception.NotFoundException;
+import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.common.mapper.RequestMapper;
 import ru.practicum.explorewithme.common.model.Event;
 import ru.practicum.explorewithme.common.model.ParticipationRequest;

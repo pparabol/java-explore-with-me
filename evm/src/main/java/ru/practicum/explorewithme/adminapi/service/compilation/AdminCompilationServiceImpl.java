@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.common.dto.compilation.CompilationDto;
 import ru.practicum.explorewithme.common.dto.compilation.NewCompilationDto;
 import ru.practicum.explorewithme.common.dto.compilation.UpdateCompilationRequest;
-import ru.practicum.explorewithme.common.exception.NotFoundException;
+import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.common.mapper.CompilationMapper;
 import ru.practicum.explorewithme.common.model.Compilation;
 import ru.practicum.explorewithme.common.model.Event;

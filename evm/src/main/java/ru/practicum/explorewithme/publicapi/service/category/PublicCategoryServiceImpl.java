@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.common.dto.category.CategoryDto;
-import ru.practicum.explorewithme.common.exception.NotFoundException;
+import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.common.model.Category;
 import ru.practicum.explorewithme.common.repository.CategoryRepository;
 import ru.practicum.explorewithme.mapper.Mapper;

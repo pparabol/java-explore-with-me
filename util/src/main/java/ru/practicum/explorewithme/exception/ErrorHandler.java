@@ -1,4 +1,4 @@
-package ru.practicum.explorewithme.common.exception;
+package ru.practicum.explorewithme.exception;
 
 import lombok.Getter;
 import org.hibernate.exception.ConstraintViolationException;

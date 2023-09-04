@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.explorewithme.exception.ValidationException;
 import ru.practicum.explorewithme.service.StatsService;
 
 import javax.validation.Valid;
@@ -34,7 +33,7 @@ public class StatsController {
             @RequestParam(required = false) List<String> uris,
             @RequestParam(defaultValue = "false") Boolean unique) {
         if (start.isAfter(end)) {
-            throw new ValidationException("Dates are incorrect: start should be before end");
+            throw new IllegalArgumentException("Dates are incorrect: start should be before end");
         }
         log.info("Get stats: start={}, end={}, uris={}, unique={}", start, end, uris, unique);
         return new ResponseEntity<>(statsService.getStats(start, end, uris, unique), HttpStatus.OK);
