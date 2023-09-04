@@ -1,7 +1,6 @@
 package ru.practicum.explorewithme.adminapi;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,7 +30,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-@Slf4j
 @Validated
 public class AdminController {
     private final AdminCategoryService categoryService;
@@ -41,14 +39,12 @@ public class AdminController {
 
     @PostMapping("categories")
     public ResponseEntity<CategoryDto> saveNewCategory(@Valid @RequestBody CategoryDto categoryDto) {
-        log.info("Creating category: name={}", categoryDto.getName());
         return new ResponseEntity<>(categoryService.save(categoryDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("categories/{catId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int catId) {
-        log.info("Deleting category: catId={}", catId);
         categoryService.delete(catId);
     }
 
@@ -56,20 +52,17 @@ public class AdminController {
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable int catId,
                                                       @Valid @RequestBody CategoryDto categoryDto) {
         categoryDto.setId(catId);
-        log.info("Updating category: categoryDto={}", categoryDto);
         return new ResponseEntity<>(categoryService.update(categoryDto), HttpStatus.OK);
     }
 
     @PostMapping("users")
     public ResponseEntity<UserDto> saveNewUser(@Valid @RequestBody UserDto userDto) {
-        log.info("Creating user: userDto={}", userDto);
         return new ResponseEntity<>(userService.save(userDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable long userId) {
-        log.info("Deleting user: userId={}", userId);
         userService.delete(userId);
     }
 
@@ -77,20 +70,17 @@ public class AdminController {
     public ResponseEntity<List<UserDto>> getUsers(@RequestParam(required = false) List<Long> ids,
                                                   @RequestParam(defaultValue = "0") @PositiveOrZero int from,
                                                   @RequestParam(defaultValue = "10") @Positive int size) {
-        log.info("Get users: ids={}, from={}, size={}", ids, from, size);
         return new ResponseEntity<>(userService.getUsers(ids, from, size), HttpStatus.OK);
     }
 
     @PostMapping("compilations")
     public ResponseEntity<CompilationDto> saveNewCompilation(@Valid @RequestBody NewCompilationDto compilationDto) {
-        log.info("Creating compilation: compilationDto={}", compilationDto);
         return new ResponseEntity<>(compilationService.save(compilationDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping("compilations/{compId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompilation(@PathVariable int compId) {
-        log.info("Deleting compilation: compId={}", compId);
         compilationService.delete(compId);
     }
 
@@ -98,7 +88,6 @@ public class AdminController {
     public ResponseEntity<CompilationDto> updateCompilation(
             @PathVariable int compId,
             @Valid @RequestBody UpdateCompilationRequest compilationDto) {
-        log.info("Updating compilation: compId={}, compilationDto={}", compId, compilationDto);
         return new ResponseEntity<>(compilationService.update(compId, compilationDto), HttpStatus.OK);
     }
 
@@ -128,14 +117,12 @@ public class AdminController {
                 .rangeEnd(rangeEnd)
                 .build();
 
-        log.info("Get events by admin: params={}, from={}, size={}", params, from, size);
         return new ResponseEntity<>(eventService.getByCriteria(params, from, size), HttpStatus.OK);
     }
 
     @PatchMapping("events/{eventId}")
     public ResponseEntity<EventFullDto> updateEvent(@PathVariable long eventId,
                                                     @Valid @RequestBody UpdateEventRequest eventDto) {
-        log.info("Updating event: eventId={}, eventDto={}", eventId, eventDto);
         return new ResponseEntity<>(eventService.update(eventId, eventDto), HttpStatus.OK);
     }
 }

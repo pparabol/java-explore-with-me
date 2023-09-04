@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.privateapi.service.request;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.common.dto.request.EventRequestStatusUpdateRequest;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class PrivateRequestServiceImpl implements PrivateRequestService {
     private final RequestRepository requestRepository;
     private final UserRepository userRepository;
@@ -63,6 +65,7 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
         }
 
         ParticipationRequest request = requestMapper.toEntity(status, user, event);
+        log.info("Saved new participation request: {}", request);
         return requestMapper.toDto(requestRepository.save(request));
     }
 
@@ -74,6 +77,7 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
                         new NotFoundException(String.format("Request with id=%d was not found", requestId)));
 
         request.setStatus(RequestStatus.CANCELED);
+        log.info("Participation request has been canceled: {}", request);
         return requestMapper.toDto(requestRepository.save(request));
     }
 
@@ -144,6 +148,8 @@ public class PrivateRequestServiceImpl implements PrivateRequestService {
                     .map(requestRepository::save)
                     .collect(Collectors.toSet());
         }
+        log.info("Requests on eventId={} has been {} by userId={}: requests={}",
+                eventId, updateRequest.getStatus(), userId, requests);
 
         return EventRequestStatusUpdateResult.builder()
                 .confirmedRequests(confirmedRequests.stream().map(requestMapper::toDto).collect(Collectors.toSet()))

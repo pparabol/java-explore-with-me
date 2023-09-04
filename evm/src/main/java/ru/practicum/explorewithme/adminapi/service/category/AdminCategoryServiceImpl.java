@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.adminapi.service.category;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.common.dto.category.CategoryDto;
@@ -12,6 +13,7 @@ import ru.practicum.explorewithme.mapper.Mapper;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class AdminCategoryServiceImpl implements AdminCategoryService {
     private final CategoryRepository categoryRepository;
     private final Mapper<Category, CategoryDto> categoryMapper;
@@ -20,6 +22,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
         Category category = categoryRepository.save(categoryMapper.toEntity(categoryDto));
+        log.info("Saved category: {}", category);
         return categoryMapper.toDto(category);
     }
 
@@ -28,6 +31,7 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     public void delete(int categoryId) {
         findCategoryOrThrowException(categoryId);
         categoryRepository.deleteById(categoryId);
+        log.info("Category with id={} has been deleted", categoryId);
     }
 
     @Transactional
@@ -35,7 +39,9 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
     public CategoryDto update(CategoryDto categoryDto) {
         Category category = findCategoryOrThrowException(categoryDto.getId());
         category.setName(categoryDto.getName());
-        return categoryMapper.toDto(categoryRepository.save(category));
+        Category updated = categoryRepository.save(category);
+        log.info("Updated category: {}", updated);
+        return categoryMapper.toDto(updated);
     }
 
     private Category findCategoryOrThrowException(int catId) {

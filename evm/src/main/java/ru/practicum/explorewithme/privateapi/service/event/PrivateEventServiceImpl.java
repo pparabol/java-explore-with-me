@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.privateapi.service.event;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class PrivateEventServiceImpl implements PrivateEventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
@@ -39,7 +41,7 @@ public class PrivateEventServiceImpl implements PrivateEventService {
         Category category = findCategoryOrThrowException(eventDto.getCategory());
 
         Event event = eventRepository.save(eventMapper.toNewEntity(eventDto, category, user));
-
+        log.info("Saved event: {}", event);
         return eventMapper.toFullDto(event);
     }
 
@@ -112,7 +114,9 @@ public class PrivateEventServiceImpl implements PrivateEventService {
             event.setTitle(eventDto.getTitle());
         }
 
-        return eventMapper.toFullDto(eventRepository.save(event));
+        Event updated = eventRepository.save(event);
+        log.info("Updated event by userId={} : {}", userId, updated);
+        return eventMapper.toFullDto(updated);
     }
 
     private void validateDate(LocalDateTime eventDate) {

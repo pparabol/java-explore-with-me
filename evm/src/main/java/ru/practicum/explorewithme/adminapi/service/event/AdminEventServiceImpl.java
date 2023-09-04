@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.adminapi.service.event;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class AdminEventServiceImpl implements AdminEventService {
     private final EventRepository eventRepository;
     private final CategoryRepository categoryRepository;
@@ -97,7 +99,9 @@ public class AdminEventServiceImpl implements AdminEventService {
             event.setTitle(eventDto.getTitle());
         }
 
-        return eventMapper.toFullDto(eventRepository.save(event));
+        Event updated = eventRepository.save(event);
+        log.info("Admin updated the event: {}", updated);
+        return eventMapper.toFullDto(updated);
     }
 
     private void validateDate(LocalDateTime eventDate) {

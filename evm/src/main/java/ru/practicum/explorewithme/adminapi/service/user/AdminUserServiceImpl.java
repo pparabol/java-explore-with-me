@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.adminapi.service.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class AdminUserServiceImpl implements AdminUserService {
     private final UserRepository userRepository;
     private final Mapper<User, UserDto> userMapper;
@@ -25,6 +27,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public UserDto save(UserDto userDto) {
         User user = userRepository.save(userMapper.toEntity(userDto));
+        log.info("Saved user: {}", user);
         return userMapper.toDto(user);
     }
 
@@ -34,6 +37,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         userRepository.findById(userId).orElseThrow(() ->
                 new NotFoundException(String.format("User with id=%d was not found", userId)));
         userRepository.deleteById(userId);
+        log.info("User with id={} has been deleted", userId);
     }
 
     @Override

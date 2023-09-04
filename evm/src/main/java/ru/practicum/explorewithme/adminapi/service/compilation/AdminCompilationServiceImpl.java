@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.adminapi.service.compilation;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.common.dto.compilation.CompilationDto;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class AdminCompilationServiceImpl implements AdminCompilationService {
     private final CompilationRepository compilationRepository;
     private final EventRepository eventRepository;
@@ -32,6 +34,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
             events = eventRepository.findAllByIdIn(compilationDto.getEvents());
         }
         Compilation compilation = compilationRepository.save(compilationMapper.toNewEntity(compilationDto, events));
+        log.info("Saved compilation: {}", compilation);
         return compilationMapper.toDto(compilation);
     }
 
@@ -40,6 +43,7 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
     public void delete(int compId) {
         findCompilationOrThrowException(compId);
         compilationRepository.deleteById(compId);
+        log.info("Compilation with id={} has been deleted", compId);
     }
 
     @Transactional
@@ -57,7 +61,10 @@ public class AdminCompilationServiceImpl implements AdminCompilationService {
         if (compilationDto.getTitle() != null) {
             compilation.setTitle(compilationDto.getTitle());
         }
-        return compilationMapper.toDto(compilationRepository.save(compilation));
+
+        Compilation updated = compilationRepository.save(compilation);
+        log.info("Updated compilation: {}", updated);
+        return compilationMapper.toDto(updated);
     }
 
     private Compilation findCompilationOrThrowException(int compId) {

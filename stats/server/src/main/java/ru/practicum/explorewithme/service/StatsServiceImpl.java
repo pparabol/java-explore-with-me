@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.explorewithme.EndpointHitDto;
 import ru.practicum.explorewithme.EventView;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StatsServiceImpl implements StatsService {
     private final StatsRepository statsRepository;
     private final Mapper<EndpointHit, EndpointHitDto> hitMapper;
@@ -23,7 +25,8 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public void saveHit(EndpointHitDto endpointHitDto) {
-        statsRepository.save(hitMapper.toEntity(endpointHitDto));
+        EndpointHit hit = statsRepository.save(hitMapper.toEntity(endpointHitDto));
+        log.info("Saved endpoint hit: {}", hit);
     }
 
     @Override
