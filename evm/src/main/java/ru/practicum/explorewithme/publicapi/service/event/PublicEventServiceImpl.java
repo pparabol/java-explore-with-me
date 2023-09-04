@@ -1,6 +1,7 @@
 package ru.practicum.explorewithme.publicapi.service.event;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,9 @@ public class PublicEventServiceImpl implements PublicEventService {
     private final EventRepository eventRepository;
     private final EventMapper eventMapper;
     private final StatsClient statsClient;
-    private final static String APP_NAME = "evm-main-service";
+
+    @Value("${evm-app.name}")
+    private String appName;
 
     @Override
     public List<EventShortDto> getEventsByCriteria(SearchEventsPublicParams params,
@@ -86,7 +89,7 @@ public class PublicEventServiceImpl implements PublicEventService {
 
     private void saveHit(HttpServletRequest request) {
         EndpointHitDto hitDto = EndpointHitDto.builder()
-                .app(APP_NAME)
+                .app(appName)
                 .uri(request.getRequestURI())
                 .ip(request.getRemoteAddr())
                 .timestamp(LocalDateTime.now())
