@@ -25,7 +25,8 @@
 	<modules>
 		<module>stats</module>
 		<module>evm</module>
-	</modules>
+        <module>util</module>
+    </modules>
 
 	<build>
 		<pluginManagement>

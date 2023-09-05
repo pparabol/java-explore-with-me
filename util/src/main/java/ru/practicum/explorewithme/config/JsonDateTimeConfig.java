@@ -10,8 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class StatsServiceConfig {
-
+public class JsonDateTimeConfig {
     @Value("yyyy-MM-dd HH:mm:ss")
     private String dateTimeFormat;
 
@@ -23,5 +22,5 @@ public class StatsServiceConfig {
             builder.deserializers(new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(dateTimeFormat)));
         };
     }
-
 }
+
