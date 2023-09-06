@@ -2,12 +2,14 @@ package ru.practicum.explorewithme.common.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.practicum.explorewithme.common.dto.user.UserDto;
+import ru.practicum.explorewithme.common.dto.user.UserShortDto;
 import ru.practicum.explorewithme.common.model.User;
-import ru.practicum.explorewithme.mapper.Mapper;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
-public class UserMapper implements Mapper<User, UserDto> {
-    @Override
+public class UserMapper {
     public User toEntity(UserDto dto) {
         return User.builder()
                 .id(dto.getId())
@@ -16,12 +18,19 @@ public class UserMapper implements Mapper<User, UserDto> {
                 .build();
     }
 
-    @Override
     public UserDto toDto(User entity) {
         return UserDto.builder()
                 .id(entity.getId())
                 .email(entity.getEmail())
                 .name(entity.getName())
+                .subscriptions(entity.getSubscriptions() == null ? Set.of() :
+                        entity.getSubscriptions().stream()
+                                .map(User::getId)
+                                .collect(Collectors.toSet()))
                 .build();
+    }
+
+    public UserShortDto toDtoShort(User entity) {
+        return new UserShortDto(entity.getId(), entity.getName());
     }
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Builder
@@ -22,4 +23,10 @@ public class User {
     private String email;
 
     private String name;
+
+    @ManyToMany
+    @JoinTable(name = "subscriptions",
+            joinColumns = @JoinColumn(name = "follower_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id"))
+    private Set<User> subscriptions;
 }

@@ -7,7 +7,6 @@ import ru.practicum.explorewithme.common.dto.event.EventFullDto;
 import ru.practicum.explorewithme.common.dto.event.EventShortDto;
 import ru.practicum.explorewithme.common.dto.event.NewEventDto;
 import ru.practicum.explorewithme.common.dto.event.EventState;
-import ru.practicum.explorewithme.common.dto.user.UserShortDto;
 import ru.practicum.explorewithme.common.model.Category;
 import ru.practicum.explorewithme.common.model.Event;
 import ru.practicum.explorewithme.common.model.User;
@@ -20,6 +19,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class EventMapper {
     private final Mapper<Category, CategoryDto> categoryMapper;
+    private final UserMapper userMapper;
 
     public Event toNewEntity(NewEventDto eventDto, Category category, User user) {
         return Event.builder()
@@ -48,7 +48,7 @@ public class EventMapper {
                 .description(event.getDescription())
                 .eventDate(event.getEventDate())
                 .id(event.getId())
-                .initiator(new UserShortDto(event.getInitiator().getId(), event.getInitiator().getName()))
+                .initiator(userMapper.toDtoShort(event.getInitiator()))
                 .location(event.getLocation())
                 .paid(event.getPaid())
                 .participantLimit(event.getParticipantLimit())
@@ -67,7 +67,7 @@ public class EventMapper {
                 .confirmedRequests(event.getConfirmedRequests())
                 .eventDate(event.getEventDate())
                 .id(event.getId())
-                .initiator(new UserShortDto(event.getInitiator().getId(), event.getInitiator().getName()))
+                .initiator(userMapper.toDtoShort(event.getInitiator()))
                 .paid(event.getPaid())
                 .title(event.getTitle())
                 .views(event.getViews())

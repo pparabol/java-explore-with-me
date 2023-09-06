@@ -51,3 +51,9 @@ CREATE TABLE IF NOT EXISTS requests (
     requester_id BIGINT NOT NULL REFERENCES users(id),
     CONSTRAINT UQ_REQUEST UNIQUE (event_id, requester_id)
 );
+
+CREATE TABLE IF NOT EXISTS subscriptions (
+    follower_id BIGINT NOT NULL REFERENCES users(id),
+    following_id BIGINT NOT NULL REFERENCES users(id),
+    PRIMARY KEY(follower_id, following_id)
+);

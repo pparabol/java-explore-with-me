@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Data
 @Builder
@@ -20,4 +21,6 @@ public class UserDto {
     @NotBlank(message = "must not be blank")
     @Size(max = 250, min = 2, message = "must be between 2 and 250 characters")
     private String name;
+
+    private Set<Long> subscriptions;
 }

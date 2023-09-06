@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.practicum.explorewithme.common.dto.event.EventState;
 import ru.practicum.explorewithme.common.model.Event;
+import ru.practicum.explorewithme.common.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -66,4 +67,11 @@ public interface EventRepository extends JpaRepository<Event, Long> {
                                            Boolean paid,
                                            Boolean onlyAvailable,
                                            Pageable pageable);
+
+    @Query("FROM Event e " +
+            "WHERE initiator IN (:initiators) " +
+            "AND state = 'PUBLISHED' " +
+            "AND (e.participantLimit = 0 OR e.requestModeration = FALSE " +
+            "OR e.participantLimit > e.confirmedRequests)")
+    List<Event> findRelevantEventsByFollowings(Collection<User> initiators, Pageable pageable);
 }
