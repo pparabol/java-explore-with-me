@@ -89,18 +89,12 @@ public class PrivateController {
     @PostMapping("subscriptions")
     public ResponseEntity<UserDto> subscribe(@PathVariable long userId,
                                              @RequestParam @Positive long id) {
-        if (userId == id) {
-            throw new IllegalArgumentException("Identifiers are equal: cannot subscribe to yourself");
-        }
         return new ResponseEntity<>(subscriptionService.subscribe(userId, id), HttpStatus.CREATED);
     }
 
     @DeleteMapping("subscriptions")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void unsubscribe(@PathVariable long userId, @RequestParam @Positive long id) {
-        if (userId == id) {
-            throw new IllegalArgumentException("Identifiers are equal: cannot unsubscribe from yourself");
-        }
         subscriptionService.unsubscribe(userId, id);
     }
 

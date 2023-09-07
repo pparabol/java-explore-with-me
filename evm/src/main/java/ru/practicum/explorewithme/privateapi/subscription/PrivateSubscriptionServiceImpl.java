@@ -33,6 +33,9 @@ public class PrivateSubscriptionServiceImpl implements PrivateSubscriptionServic
     @Transactional
     @Override
     public UserDto subscribe(long userId, long followingId) {
+        if (userId == followingId) {
+            throw new IllegalArgumentException("Identifiers are equal: cannot subscribe to yourself");
+        }
         User follower = findUserOrThrowException(userId);
         User following = findUserOrThrowException(followingId);
 
@@ -49,6 +52,9 @@ public class PrivateSubscriptionServiceImpl implements PrivateSubscriptionServic
     @Transactional
     @Override
     public void unsubscribe(long userId, long followingId) {
+        if (userId == followingId) {
+            throw new IllegalArgumentException("Identifiers are equal: cannot unsubscribe from yourself");
+        }
         User follower = findUserOrThrowException(userId);
         User following = findUserOrThrowException(followingId);
 
@@ -57,7 +63,6 @@ public class PrivateSubscriptionServiceImpl implements PrivateSubscriptionServic
                     String.format("There is no user with id=%d in subscriptions", followingId)
             );
         }
-
         userRepository.save(follower);
         log.info("UserId={} unsubscribed from userId={}", userId, followingId);
     }

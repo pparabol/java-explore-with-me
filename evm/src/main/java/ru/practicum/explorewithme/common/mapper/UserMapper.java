@@ -5,6 +5,7 @@ import ru.practicum.explorewithme.common.dto.user.UserDto;
 import ru.practicum.explorewithme.common.dto.user.UserShortDto;
 import ru.practicum.explorewithme.common.model.User;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,10 +24,11 @@ public class UserMapper {
                 .id(entity.getId())
                 .email(entity.getEmail())
                 .name(entity.getName())
-                .subscriptions(entity.getSubscriptions() == null ? Set.of() :
-                        entity.getSubscriptions().stream()
-                                .map(User::getId)
-                                .collect(Collectors.toSet()))
+                .subscriptions(Optional.ofNullable(entity.getSubscriptions())
+                        .orElse(Set.of())
+                        .stream()
+                        .map(User::getId)
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
