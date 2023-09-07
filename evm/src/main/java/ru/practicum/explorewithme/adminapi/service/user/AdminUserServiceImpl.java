@@ -7,10 +7,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.explorewithme.common.dto.user.UserDto;
+import ru.practicum.explorewithme.common.mapper.UserMapper;
 import ru.practicum.explorewithme.exception.NotFoundException;
 import ru.practicum.explorewithme.common.model.User;
 import ru.practicum.explorewithme.common.repository.UserRepository;
-import ru.practicum.explorewithme.mapper.Mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AdminUserServiceImpl implements AdminUserService {
     private final UserRepository userRepository;
-    private final Mapper<User, UserDto> userMapper;
+    private final UserMapper userMapper;
 
     @Transactional
     @Override
